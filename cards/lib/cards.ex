@@ -24,8 +24,28 @@ defmodule Cards do
   end
 
   def deal(deck, hand_size) do
-    {hand, _rest} = Enum.split(deck, hand_size)
+    Enum.split(deck, hand_size)
+  end
 
-    hand
+  def save(deck, filename) do
+    binary = :erlang.term_to_binary(deck)
+    File.write(filename, binary)
+  end
+
+  def load(filename) when is_bitstring(filename) do
+    case File.read(filename) do
+      {:ok, binary} -> :erlang.binary_to_term(binary)
+      {:error, _reason} -> "Something went wrong"
+    end
+  end
+
+  def load(_) do
+    :not_a_valid_string
+  end
+
+  def create_hand(hand_size) do
+    create_deck()
+    |> shuffle()
+    |> deal(hand_size)
   end
 end
