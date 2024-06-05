@@ -1,0 +1,6 @@
+<.form :let={f} for={@changeset} action={~p"/topics/#{@topic_id}"}>
+    <.input field={f[:title]} />
+    <input type="hidden" name="_method" value="put" />
+    <button type="submit">Submit</button>
+</.form>
+
