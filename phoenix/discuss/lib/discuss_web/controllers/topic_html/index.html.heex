@@ -1,11 +1,32 @@
 <ul class="collection">
     <%= for topic <- @topics do %>
-        <li class="collection-item"><%= topic.title %></li>
-    <% end %>
+        <li class="collection-item">
+            <%= topic.title %>
+                <div class="flex items-center">
+                    <.link navigate={~p"/topics/#{topic.id}"}
+                        class="group relative rounded-2xl px-6 py-4 text-sm font-semibold leading-6 text-zinc-900 sm:py-6">
+                        <.icon name="hero-eye" />
+                    </.link>
+                    <.link navigate={~p"/topics/#{topic.id}/edit"}
+                        class="group relative rounded-2xl px-6 py-4 text-sm font-semibold leading-6 text-zinc-900 sm:py-6">
+                        <.icon name="hero-pencil" />
+                    </.link>
+
+                    <.form action={~p"/topics/#{topic.id}"}>
+                        <input type="hidden" name="_method" value="delete" />
+                        <button type="submit">
+                            <.icon name="hero-trash" />
+                        </button>
+                    </.form>
+
+                </div>
+        </li>
+        <% end %>
 </ul>
 
 
 
-<.link navigate={~p"/topics/new"} class="group relative rounded-2xl px-6 py-4 text-sm font-semibold leading-6 text-zinc-900 sm:py-6">
+<.link navigate={~p"/topics/new"}
+    class="group relative rounded-2xl px-6 py-4 text-sm font-semibold leading-6 text-zinc-900 sm:py-6">
     <.icon name="hero-plus-circle" />
 </.link>
