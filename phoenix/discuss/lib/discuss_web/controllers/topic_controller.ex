@@ -3,6 +3,7 @@ defmodule DiscussWeb.TopicController do
 
   alias DiscussWeb.Models.Topic
   alias Discuss.Repo
+  def init(options), do: options
 
   def index(conn, _params) do
     topics = Repo.all(Topic)

@@ -10,17 +10,34 @@ defmodule DiscussWeb.Router do
     plug(:put_secure_browser_headers)
   end
 
+  pipeline :browser_gh do
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_live_flash)
+    plug(:put_root_layout, html: {DiscussWeb.Layouts, :root})
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
+    plug(Ueberauth)
+  end
+
   pipeline :api do
     plug(:accepts, ["json"])
+  end
+
+  scope "/auth", DiscussWeb do
+    pipe_through(:browser_gh)
+
+    get("/:provider", AuthController, :request)
+    get("/:provider/callback", AuthController, :callback)
   end
 
   scope "/", DiscussWeb do
     pipe_through(:browser)
 
     get("/", TopicController, :index)
-    #get("/topics/new", TopicController, :new)
-    #post("/topics", TopicController, :create)
-    resources "/topics", TopicController
+    # get("/topics/new", TopicController, :new)
+    # post("/topics", TopicController, :create)
+    resources("/topics", TopicController)
   end
 
   # Other scopes may use custom stacks.
