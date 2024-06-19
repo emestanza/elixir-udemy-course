@@ -2,6 +2,7 @@
     <%= for topic <- @topics do %>
         <li class="collection-item">
             <%= topic.title %>
+            <%= if @conn.assigns.user.id == topic.user_id do %>
                 <div class="flex items-center">
                     <.link navigate={~p"/topics/#{topic.id}"}
                         class="group relative rounded-2xl px-6 py-4 text-sm font-semibold leading-6 text-zinc-900 sm:py-6">
@@ -20,6 +21,7 @@
                     </.form>
 
                 </div>
+            <% end %>
         </li>
         <% end %>
 </ul>

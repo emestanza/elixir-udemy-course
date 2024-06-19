@@ -13,7 +13,7 @@ defmodule DiscussWeb.AuthController do
     |> Ueberauth.request(provider, conn.host <> "/auth/#{provider}/callback")
   end
 
-  def callback(%{assigns: %{ueberauth_auth: auth}} = conn, params) do
+  def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
     IO.puts("Failed to authenticate => #{inspect(conn)}")
 
     user_params = %{
@@ -27,6 +27,13 @@ defmodule DiscussWeb.AuthController do
     changeset = User.changeset(%User{}, user_params)
 
     signin(conn, changeset)
+  end
+
+  def signout(conn, _params) do
+    conn
+    |> configure_session(drop: true)
+    |> put_flash(:info, "Signed out successfully")
+    |> redirect(to: "/")
   end
 
   defp signin(conn, changeset) do

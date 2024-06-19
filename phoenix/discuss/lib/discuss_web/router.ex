@@ -8,6 +8,8 @@ defmodule DiscussWeb.Router do
     plug(:put_root_layout, html: {DiscussWeb.Layouts, :root})
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
+    plug(Ueberauth)
+    plug(DiscussWeb.Plugs.SetUser)
   end
 
   pipeline :browser_gh do
@@ -17,7 +19,6 @@ defmodule DiscussWeb.Router do
     plug(:put_root_layout, html: {DiscussWeb.Layouts, :root})
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
-    plug(Ueberauth)
   end
 
   pipeline :api do
@@ -25,8 +26,9 @@ defmodule DiscussWeb.Router do
   end
 
   scope "/auth", DiscussWeb do
-    pipe_through(:browser_gh)
+    pipe_through(:browser)
 
+    get("/signout", AuthController, :signout)
     get("/:provider", AuthController, :request)
     get("/:provider/callback", AuthController, :callback)
   end
@@ -35,8 +37,6 @@ defmodule DiscussWeb.Router do
     pipe_through(:browser)
 
     get("/", TopicController, :index)
-    # get("/topics/new", TopicController, :new)
-    # post("/topics", TopicController, :create)
     resources("/topics", TopicController)
   end
 
