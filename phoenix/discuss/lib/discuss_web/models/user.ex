@@ -7,6 +7,7 @@ defmodule DiscussWeb.Models.User do
     field(:email, :string)
     field(:provider, :string)
     field(:token, :string)
+    has_many(:topics, DiscussWeb.Models.Topic)
     timestamps()
   end
 

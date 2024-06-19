@@ -21,6 +21,14 @@
       >
         Get Started <span aria-hidden="true">&rarr;</span>
       </a>
+      <%= if @conn.assigns[:user] do %>
+          <a href={~p"/auth/signout"} class="hover:text-zinc-700">
+            Logout
+          </a>
+        <% else %>
+          <a href={~p"/auth/github"} class="hover:text-zinc-700">
+            Sign Up</a>
+        <% end %>
     </div>
   </div>
 </header>
