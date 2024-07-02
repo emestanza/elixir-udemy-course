@@ -13,6 +13,7 @@ defmodule DiscussWeb.TopicController do
 
   def index(conn, _params) do
     topics = Repo.all(Topic)
+    Logger.info("assigns: #{inspect(conn.assigns)}")
     render(conn, :index, layout: {DiscussWeb.Layouts, "app.html"}, topics: topics)
   end
 
