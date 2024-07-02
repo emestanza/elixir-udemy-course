@@ -1,0 +1,14 @@
+<h4><%= @topic.title %></h4>
+
+<div>
+    <textarea id="chat" rows="5" cols="30"></textarea>
+    <button id="send">Send</button>
+</div>
+
+<ul class="collection"></ul>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        window.createSocket('<%= @topic.id %>');
+    });
+</script>

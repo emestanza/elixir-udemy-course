@@ -13,6 +13,7 @@ defmodule DiscussWeb.TopicController do
 
   def index(conn, _params) do
     topics = Repo.all(Topic)
+    Logger.info("assigns: #{inspect(conn.assigns)}")
     render(conn, :index, layout: {DiscussWeb.Layouts, "app.html"}, topics: topics)
   end
 
@@ -80,6 +81,11 @@ defmodule DiscussWeb.TopicController do
     conn
     |> put_flash(:info, "Topic deleted successfully")
     |> redirect(to: ~p"/")
+  end
+
+  def show(conn, %{"id" => topic_id}) do
+    topic = Repo.get!(Topic, topic_id)
+    render(conn, :show, layout: {DiscussWeb.Layouts, "app.html"}, topic: topic)
   end
 
   def check_topic_owner(conn, _params) do

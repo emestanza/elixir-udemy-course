@@ -1,29 +1,33 @@
 <ul class="collection">
     <%= for topic <- @topics do %>
-        <li class="collection-item">
+    <li class="collection-item">
+
+        <.link navigate={~p"/topics/#{topic.id}"}
+            class="group relative rounded-2xl px-6 py-4 text-sm font-semibold leading-6 text-zinc-900 sm:py-6">
             <%= topic.title %>
-            <%= if @conn.assigns.user.id == topic.user_id do %>
-                <div class="flex items-center">
-                    <.link navigate={~p"/topics/#{topic.id}"}
-                        class="group relative rounded-2xl px-6 py-4 text-sm font-semibold leading-6 text-zinc-900 sm:py-6">
-                        <.icon name="hero-eye" />
-                    </.link>
-                    <.link navigate={~p"/topics/#{topic.id}/edit"}
-                        class="group relative rounded-2xl px-6 py-4 text-sm font-semibold leading-6 text-zinc-900 sm:py-6">
-                        <.icon name="hero-pencil" />
-                    </.link>
+        </.link>
 
-                    <.form action={~p"/topics/#{topic.id}"}>
-                        <input type="hidden" name="_method" value="delete" />
-                        <button type="submit">
-                            <.icon name="hero-trash" />
-                        </button>
-                    </.form>
+        <%= if @conn.assigns.user.id == topic.user_id do %>
+        <div class="flex items-center">
+            <.link navigate={~p"/topics/#{topic.id}"}
+                class="group relative rounded-2xl px-6 py-4 text-sm font-semibold leading-6 text-zinc-900 sm:py-6">
+                <.icon name="hero-eye" />
+            </.link>
+            <.link navigate={~p"/topics/#{topic.id}/edit"}
+                class="group relative rounded-2xl px-6 py-4 text-sm font-semibold leading-6 text-zinc-900 sm:py-6">
+                <.icon name="hero-pencil" />
+            </.link>
 
-                </div>
-            <% end %>
-        </li>
+            <.form action={~p"/topics/#{topic.id}"}> <input type="hidden" name="_method" value="delete" />
+            <button type="submit">
+                <.icon name="hero-trash" />
+            </button>
+            </.form>
+
+        </div>
         <% end %>
+    </li>
+    <% end %>
 </ul>
 
 
